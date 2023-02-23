@@ -1,0 +1,39 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JTextField;
+
+public class WebScraperGUI extends JFrame {
+  public static void main(String[] args) {
+    new WebScraperGUI();
+  }
+  
+  public WebScraperGUI() {
+    setTitle("Web Scraper");
+    setSize(700, 00);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    
+    JTextField urlField = new JTextField("https://www.scrapethissite.com/pages/");
+    JButton scrapeButton = new JButton("Scrape Site");
+    
+    scrapeButton.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        String[] args = {urlField.getText()};
+        try {
+          WebScraper.main(args);
+        } catch (IOException ex) {
+          ex.printStackTrace();
+        }
+      }
+    });
+    
+    add(urlField);
+    add(scrapeButton);
+    
+    setVisible(true);
+  }
+}
