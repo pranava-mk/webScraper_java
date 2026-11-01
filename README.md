@@ -1,32 +1,62 @@
-## WebScraper Using Java 
-This repository contains a Java-based web scraper that uses JavaScript and HTML to build a user interface where the user can input a URL, and the scraper extracts all the links on the page and stores the results in a CSV file on the local system.
+# Web Scraper (Java)
+
+A small Java desktop app that scrapes every link off a given webpage and saves them to a CSV file.
+Uses [Jsoup](https://jsoup.org/) for HTML parsing and a Swing GUI for input.
 
 ## Why Java?
-Although Python is preferred for building web scrapers, Java may have advantages in terms of performance, scalability, robustness, and available libraries, depending on specific project requirements and familiarity with the language.
-Java is a popular language for web scraping because it is efficient and has a wide range of libraries and tools available and it comes with a library known as `Jsoup`. The web scraper can be customized to extract specific information from the page, such as the title, description, and date. Moreover, the scraper can be set up to run automatically at specific intervals, allowing the user to gather data regularly without manual intervention ( setting up bots ).
 
-## Web Scraper Using Java
-This repository contains a Java-based web scraper that uses JavaScript and HTML to build a user interface where the user can input a URL, and the scraper extracts all the links on the page and stores the results in a CSV file on the local system.
+Python is the more common choice for scraping, but Java is a solid option too: it's
+fast, strongly typed, and [Jsoup](https://jsoup.org/) makes HTML parsing straightforward.
+This was a small project to get hands-on with Java + a real third-party library + Maven.
 
-## Why Java?
-Java is a popular language for web scraping because it is efficient and has a wide range of libraries and tools available and it comes with a library known as `Jsoup`. The web scraper can be customized to extract specific information from the page, such as the title, description, and date. Moreover, the scraper can be set up to run automatically at specific intervals, allowing the user to gather data regularly without manual intervention.
+## Requirements
 
-## Getting Started
-Before you get started with this web scraper, you need to ensure that you have the following installed on your system:
+- JDK 17+
+- Maven 3.6+
 
-- Java Development Kit (JDK) version 8 or higher.
-- An IDE like Eclipse or IntelliJ IDEA or use VSCode as I have.
-- Once you have these installed, you can download or clone this repository to your local system and run it using your IDE or command line. The web scraper can be run by executing the main method in the `WebScraperGui.java` file.
+## Build
 
-## Usage
-To use the web scraper, simply input the URL of the website you wish to scrape and press the `"Extract"` button. The web scraper will then extract all the `links` on the page and store the results in a CSV file on your local system with the same name as the domain of the website.
+```bash
+mvn package
+```
 
-You can also customize the web scraper to extract specific information from the page by modifying the code in the `WebScraper.java` file.
+This produces a runnable shaded jar at `target/webscraper.jar`.
+
+## Run
+
+**GUI** (enter a URL and click "Scrape"):
+
+```bash
+java -jar target/webscraper.jar
+```
+
+**CLI** (scrape directly from the command line):
+
+```bash
+java -cp target/webscraper.jar com.pranavamk.webscraper.WebScraper https://example.com
+```
+
+Either way, the output is a CSV named after the site's domain (e.g. `example.com.csv`)
+in the current directory, containing one absolute URL per line for every `<a href>` on the page.
+
+## How it works
+
+- `WebScraper.java` — the actual scraping logic: fetches the page with Jsoup, selects all
+  `a[href]` elements, resolves them to absolute URLs, and writes them to a CSV.
+- `WebScraperGui.java` — a Swing window that takes a URL from the user and delegates to
+  `WebScraper.main(...)`.
 
 ## Applications
-The web scraper using Java is a useful tool for anyone who needs to collect data from websites, such as market researchers, data scientists, and journalists. The data collected can be used for a variety of purposes, including trend analysis, market research, and content creation.
-Furthermore it can be used in `CyberSecurity` applications where it can be used to find `EndPoints` of any site to spot out vulnerabilities .
 
-## Conclusion
-In conclusion, the web scraper using Java is a powerful tool that can save time and effort by automating the data collection process. With its versatility and ease of use, it is a must-have tool for anyone in need of large amounts of data from websites. 
-If you have any questions or suggestions, please feel free to contribute to this repository.
+Useful for quick link audits — digging through a site's structure, finding all outbound
+links for research, or spotting unexpected endpoints as a lightweight first pass before
+deeper security testing.
+
+## Limitations
+
+This is a learning project, not a production crawler:
+
+- Single page only — it does not recurse into the links it finds.
+- No JavaScript rendering — pages that build their nav/links client-side (SPAs) won't
+  expose those links to Jsoup, since it only sees the initial HTML response.
+- No rate limiting, retries, or robots.txt handling.

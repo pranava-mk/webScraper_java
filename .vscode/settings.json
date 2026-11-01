@@ -1,6 +1,4 @@
 {
-    "java.project.referencedLibraries": [
-        "lib/**/*.jar",
-        "bin/jsoup-1.15.3.jar"
-    ]
+    "java.project.sourcePaths": ["src/main/java"],
+    "java.project.outputPath": "target/classes"
 }

@@ -1,0 +1,6 @@
+target/
+*.class
+*.csv
+.idea/
+*.iml
+dependency-reduced-pom.xml
