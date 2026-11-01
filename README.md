@@ -1,15 +1,24 @@
-# Web Scraper (Java)
+# 🕷️ Web Scraper (Java)
 
-A small Java desktop app that scrapes every link off a given webpage and saves them to a CSV file.
-Uses [Jsoup](https://jsoup.org/) for HTML parsing and a Swing GUI for input.
+> A small Java desktop app that scrapes every link off a page and saves them to CSV.
 
-## Why Java?
+Uses [Jsoup](https://jsoup.org/) for HTML parsing and a Swing GUI for input,
+built with Maven.
 
-Python is the more common choice for scraping, but Java is a solid option too: it's
-fast, strongly typed, and [Jsoup](https://jsoup.org/) makes HTML parsing straightforward.
-This was a small project to get hands-on with Java + a real third-party library + Maven.
+![Java](https://img.shields.io/badge/Java-17%2B-orange)
+![Maven](https://img.shields.io/badge/build-Maven-C71A36)
+![Jsoup](https://img.shields.io/badge/deps-Jsoup-informational)
+![License](https://img.shields.io/badge/license-none%20specified-lightgrey)
 
-## Setup
+---
+
+## ✨ What it does
+
+Point it at any URL and it extracts every `<a href>` on the page, resolves
+them to absolute URLs, and writes them to a CSV named after the site's domain
+(e.g. `example.com.csv`). Available as both a GUI and a CLI.
+
+## 🚀 Getting Started
 
 One command builds everything:
 
@@ -17,49 +26,66 @@ One command builds everything:
 ./setup.sh
 ```
 
-This runs `mvn package`, which downloads Jsoup and produces a runnable
-shaded jar at `target/webscraper.jar`.
+This runs `mvn package`, downloading Jsoup and producing a runnable shaded
+jar at `target/webscraper.jar`.
 
-## Requirements
+### Requirements
 
 - JDK 17+
 - Maven 3.6+
 
-## Run
+## 🖥️ Usage
 
-**GUI** (enter a URL and click "Scrape"):
+**GUI** — enter a URL and click "Scrape":
 
 ```bash
 java -jar target/webscraper.jar
 ```
 
-**CLI** (scrape directly from the command line):
+**CLI** — scrape directly from the command line:
 
 ```bash
 java -cp target/webscraper.jar com.pranavamk.webscraper.WebScraper https://example.com
 ```
 
-Either way, the output is a CSV named after the site's domain (e.g. `example.com.csv`)
-in the current directory, containing one absolute URL per line for every `<a href>` on the page.
+Either way, the output CSV lands in the current directory, one absolute URL
+per line for every link found.
 
-## How it works
+## 🗂️ Project Structure
 
-- `WebScraper.java` — the actual scraping logic: fetches the page with Jsoup, selects all
-  `a[href]` elements, resolves them to absolute URLs, and writes them to a CSV.
-- `WebScraperGui.java` — a Swing window that takes a URL from the user and delegates to
-  `WebScraper.main(...)`.
+```
+webScraper_java/
+├── pom.xml
+├── setup.sh
+└── src/main/java/com/pranavamk/webscraper/
+    ├── WebScraper.java       # scraping logic (Jsoup fetch + parse + CSV write)
+    └── WebScraperGui.java    # Swing GUI wrapper around WebScraper
+```
 
-## Applications
+## 🧭 Why Java?
 
-Useful for quick link audits — digging through a site's structure, finding all outbound
-links for research, or spotting unexpected endpoints as a lightweight first pass before
-deeper security testing.
+Python is the more common scraping choice, but Java is solid too — fast,
+strongly typed, and [Jsoup](https://jsoup.org/) makes HTML parsing
+straightforward. This was a project to get hands-on with Java + a real
+third-party library + Maven, end to end.
 
-## Limitations
+## 🛠️ Applications
+
+Useful for quick link audits: digging through a site's structure, finding
+outbound links for research, or spotting unexpected endpoints as a
+lightweight first pass before deeper security testing.
+
+## ⚠️ Limitations
 
 This is a learning project, not a production crawler:
 
-- Single page only — it does not recurse into the links it finds.
-- No JavaScript rendering — pages that build their nav/links client-side (SPAs) won't
-  expose those links to Jsoup, since it only sees the initial HTML response.
-- No rate limiting, retries, or robots.txt handling.
+- Single page only — it does not recurse into the links it finds
+- No JavaScript rendering — SPA pages that build links client-side won't
+  expose them to Jsoup, since it only sees the initial HTML response
+- No rate limiting, retries, or robots.txt handling
+
+## 📦 Deployment
+
+This is a **desktop application**, not a web app — there's no hosted link.
+Running it means building the jar locally (`./setup.sh`) and launching it,
+either as the GUI or from the CLI.
