@@ -9,18 +9,21 @@ Python is the more common choice for scraping, but Java is a solid option too: i
 fast, strongly typed, and [Jsoup](https://jsoup.org/) makes HTML parsing straightforward.
 This was a small project to get hands-on with Java + a real third-party library + Maven.
 
+## Setup
+
+One command builds everything:
+
+```bash
+./setup.sh
+```
+
+This runs `mvn package`, which downloads Jsoup and produces a runnable
+shaded jar at `target/webscraper.jar`.
+
 ## Requirements
 
 - JDK 17+
 - Maven 3.6+
-
-## Build
-
-```bash
-mvn package
-```
-
-This produces a runnable shaded jar at `target/webscraper.jar`.
 
 ## Run
 
